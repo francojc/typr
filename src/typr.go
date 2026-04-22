@@ -171,8 +171,8 @@ func createTyper(scr tcell.Screen, bold bool, themeName string) *typer {
 	return NewTyper(scr, bold, fgcol, bgcol, hicol, hicol2, hicol3, errcol)
 }
 
-var usage = `usage: tt [options] [file]
-       tt visualize <file>
+var usage = `usage: typr [options] [file]
+       typr visualize <file>
 
 Subcommands
     visualize <file>    Display typing speed progress graph.
@@ -221,8 +221,8 @@ Scripting
     -csv                Write test results to CSV files in configured directory.
                         Stats: {csvdir}/{mode}-stats.csv (timestamp,wpm,cpm,accuracy)
                         Errors: {csvdir}/{mode}-errors.csv (timestamp,word,error)
-                        Default dir: ~/.local/share/tt/results
-                        Configure via: ~/.config/tt/config.json
+                        Default dir: ~/.local/share/typr/results
+                        Configure via: ~/.config/typr/config.yaml
     -json               Print the test output in JSON.
     -raw                Don't reflow STDIN text or show one paragraph at a time.
                         Note that line breaks are determined exclusively by the

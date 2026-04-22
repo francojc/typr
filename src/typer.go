@@ -55,7 +55,7 @@ func NewTyper(scr tcell.Screen, emboldenTypedText bool, fgcol, bgcol, hicol, hic
 		Background(bgcol)
 
 	tty, err := os.OpenFile("/dev/tty", os.O_WRONLY, 0)
-	//Will fail on windows, but tt is still mostly usable via tcell
+	//Will fail on windows, but typr is still mostly usable via tcell
 	if err != nil {
 		tty = io.Discard
 	}

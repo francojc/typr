@@ -15,13 +15,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
-- `tt -quotes` now defaults to ZenQuotes API (with zenlog fallback) -- no `-quotefile` flag needed
+- `typr -quotes` now defaults to ZenQuotes API (with zenlog fallback) -- no `-quotefile` flag needed
 - `-quotefile zen` now reads exclusively from local zenlog cache (offline, no network)
-- Clear error when zenlog is empty, prompting user to run `tt -quotes` first to populate it
+- Clear error when zenlog is empty, prompting user to run `typr -quotes` first to populate it
 
 ### Added
 
-- `NOTICE` file with attribution to upstream project (tt by Aetnaeus)
+- `NOTICE` file with attribution to upstream project (`tt` by Aetnaeus)
 - GoReleaser configuration for cross-compiled binary releases
 - GitHub Actions workflow for automated releases on tag push
 

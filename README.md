@@ -36,7 +36,7 @@ Best served on a terminal with truecolor and cursor shape support (e.g kitty, it
 By default 50 words from the top 1000 words in the English language are used to
 constitute the test. Custom text can be supplied by piping arbitrary text to the
 program. Each paragraph in the input is shown as a separate segment of the text.
-See `man tt` or `man.md` for a complete description and a comprehensive set of
+See `man typr` or `man.md` for a complete description and a comprehensive set of
 options.
 
 ## Keys
@@ -47,22 +47,22 @@ options.
 
 ## Examples
 
- - `tt -quotes en` Starts quote mode with the builtin quote list 'en'.
- - `tt -quotes` Fetches a random quote from the ZenQuotes API (cached locally).
- - `tt -quotefile zen` Uses a locally cached quote from previous ZenQuotes API sessions (offline).
- - `tt -n 10 -g 5` produces a test consisting of 50 randomly drawn words in 5 groups of 10 words each.
- - `tt -t 10` starts a timed test lasting 10 seconds.
- - `tt -theme gruvbox` Starts tt with the gruvbox theme.
+ - `typr -quotes en` Starts quote mode with the builtin quote list 'en'.
+ - `typr -quotes` Fetches a random quote from the ZenQuotes API (cached locally).
+ - `typr -quotefile zen` Uses a locally cached quote from previous ZenQuotes API sessions (offline).
+ - `typr -n 10 -g 5` produces a test consisting of 50 randomly drawn words in 5 groups of 10 words each.
+ - `typr -t 10` starts a timed test lasting 10 seconds.
+ - `typr -theme gruvbox` Starts typr with the gruvbox theme.
 
-`tt` is designed to be easily scriptable and integrate nicely with
+`typr` is designed to be easily scriptable and integrate nicely with
 other *nix tools. With a little shell scripting most features the user can
 conceive of should be possible to implement. Below are some simple examples of
 what can be achieved.
 
- - `shuf -n 40 /usr/share/dict/words|tt`  Produces a test consisting of 40 random words drawn from your system's dictionary.
- - `tt -csv -oneshot` Runs a single test and saves results to `~/.local/share/tt/results/`.
+ - `shuf -n 40 /usr/share/dict/words|typr`  Produces a test consisting of 40 random words drawn from your system's dictionary.
+ - `typr -csv -oneshot` Runs a single test and saves results to `~/.local/share/typr/results/`.
 
-The default behaviour is equivalent to `tt -n 50`.
+The default behaviour is equivalent to `typr -n 50`.
 
 See `-help` for an exhaustive list of options.
 
@@ -72,11 +72,11 @@ Track your typing speed improvement over time with terminal graphs:
 
 ```bash
 # Visualize with just filename (looks in results directory)
-tt visualize quotes-stats.csv
-tt visualize words-stats.csv
+typr visualize quotes-stats.csv
+typr visualize words-stats.csv
 
 # Or with full path
-tt visualize ~/.local/share/tt/results/quotes-stats.csv
+typr visualize ~/.local/share/typr/results/quotes-stats.csv
 ```
 
 The visualization shows your min, mean, and max WPM by day over the last 30 days.
@@ -86,12 +86,12 @@ Run tests with the `-csv` flag to generate data for visualization.
 
 ### YAML Configuration File
 
-Create a configuration file at `~/.config/tt/config.yaml`:
+Create a configuration file at `~/.config/typr/config.yaml`:
 
 ```yaml
-# tt - Typing Test Configuration
+# typr - Typing Test Configuration
 #
-# This file contains default settings for the tt tool.
+# This file contains default settings for typr.
 # Command-line flags override these settings.
 
 # Word/Quote Mode
@@ -129,14 +129,14 @@ noreport: false
 
 ### Custom Themes and Word Lists
 
-Custom themes, word lists, and quotes can be defined in `~/.config/tt/themes`, `~/.config/tt/words`, and `~/.config/tt/quotes`
+Custom themes, word lists, and quotes can be defined in `~/.config/typr/themes`, `~/.config/typr/words`, and `~/.config/typr/quotes`
 and used in conjunction with the `-theme`, `-words`, and `-quotefile` flags. A list of
 preloaded themes and word lists can be found in `words/` and `themes/` and are
 accessible by default using the respective flags.
 
 ### CSV Output Directory
 
-By default, `-csv` writes results to `~/.local/share/tt/results/`:
+By default, `-csv` writes results to `~/.local/share/typr/results/`:
 
 - Stats: `{mode}-stats.csv` (timestamp, wpm, cpm, accuracy, n)
 - Errors: `{mode}-errors.csv` (timestamp, word, error)
@@ -151,9 +151,9 @@ The tilde (`~`) will be expanded to your home directory. Paths can be absolute o
 
 ## ZenQuotes and Offline Mode
 
-`tt -quotes` fetches inspirational quotes from the [ZenQuotes API](https://zenquotes.io/). Each fetched quote is automatically cached to `~/.local/share/tt/quotes/zenlog.json` (unique quotes only, no duplicates).
+`typr -quotes` fetches inspirational quotes from the [ZenQuotes API](https://zenquotes.io/). Each fetched quote is automatically cached to `~/.local/share/typr/quotes/zenlog.json` (unique quotes only, no duplicates).
 
-When the API is unavailable (network issues, rate limiting, etc.), tt falls back automatically to:
+When the API is unavailable (network issues, rate limiting, etc.), typr falls back automatically to:
 
 1. In-memory quote cache (current session)
 2. Previously cached quotes from zenlog
@@ -162,7 +162,7 @@ When the API is unavailable (network issues, rate limiting, etc.), tt falls back
 To explicitly use only locally cached quotes (no network), use `-quotefile zen`:
 
 ```bash
-tt -quotefile zen
+typr -quotefile zen
 ```
 
-This reads exclusively from the zenlog cache. If the cache is empty, tt will prompt you to run `tt -quotes` first to populate it.
+This reads exclusively from the zenlog cache. If the cache is empty, typr will prompt you to run `typr -quotes` first to populate it.
