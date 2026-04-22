@@ -279,11 +279,8 @@ func displayPlot(stats []DailyStats, csvPath string) error {
 
 	// Display summary
 	fmt.Printf("%d tests completed over %d days\n", totalTests, len(stats))
-	fmt.Println("Press any key to exit")
+	fmt.Println("Press Enter to exit")
 
-	// Wait for key press
-	// Note: This is a simple implementation. For production, you might want
-	// to use tcell or other libraries for proper terminal handling
 	var input string
 	fmt.Scanln(&input)
 
