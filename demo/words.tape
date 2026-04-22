@@ -5,8 +5,8 @@ Output demo/words.gif
 
 Set Shell "bash"
 Set FontSize 16
-Set Width 100
-Set Height 28
+Set Width 1200
+Set Height 500
 Set Theme "Dracula"
 Set Framerate 24
 Set PlaybackSpeed 1.0
