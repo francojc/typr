@@ -140,7 +140,9 @@ typr visualize <FILE>
     Stats: `~/.local/share/typr/results/{mode}-stats.csv` (timestamp,wpm,cpm,accuracy,file,n)\
     Errors: `~/.local/share/typr/results/{mode}-errors.csv` (timestamp,word,error)
 
-    Configure output directory via `csvdir` in `~/.config/typr/config.yaml`.
+    Enabled by default via config.yaml.
+
+    Configure output directory via `csvdir` in `$XDG_CONFIG_HOME/typr/config.yaml` or `~/.config/typr/config.yaml`.
 
 -json
 
@@ -161,7 +163,7 @@ are determined exclusively by the input.
 
     Lists internal resources of the given type. TYPE=[themes|quotes|words].
 
-**-v**\
+**-V**, **--version**\
 
     Print the current version.
 

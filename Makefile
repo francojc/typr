@@ -2,15 +2,20 @@ DESTDIR :=
 PREFIX := $(HOME)/.local
 
 .PHONY: all
-all:
+all: bin/typr typr.1.gz
+
+bin/typr: src/*.go
 	go build -o bin/typr src/*.go
+
+typr.1.gz: man.md
+	pandoc -s -t man -o - man.md | gzip > typr.1.gz
 
 .PHONY: clean
 clean:
-	rm -f bin/typr bin/typr-osx bin/typr.exe bin/typr-linux bin/typr-linux_arm bin/typr-linux_arm64
+	rm -f bin/typr bin/typr-osx bin/typr.exe bin/typr-linux bin/typr-linux_arm bin/typr-linux_arm64 typr.1.gz
 
 .PHONY: install
-install:
+install: all
 	install -d $(DESTDIR)$(PREFIX)/bin
 	install -d $(DESTDIR)$(PREFIX)/share/man/man1
 	install -m755 bin/typr $(DESTDIR)$(PREFIX)/bin
@@ -25,7 +30,6 @@ uninstall:
 assets:
 	python3 ./scripts/themegen.py
 	./scripts/pack themes/ words/ quotes/ > src/packed.go
-	pandoc -s -t man -o - man.md|gzip > typr.1.gz
 
 .PHONY: rel
 rel:

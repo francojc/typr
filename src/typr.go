@@ -219,10 +219,11 @@ Scripting
     -oneshot            Automatically exit after a single run.
     -noreport           Don't show a report at the end of a test.
     -csv                Write test results to CSV files in configured directory.
+                        Enabled by default via config.yaml.
                         Stats: {csvdir}/{mode}-stats.csv (timestamp,wpm,cpm,accuracy)
                         Errors: {csvdir}/{mode}-errors.csv (timestamp,word,error)
-                        Default dir: ~/.local/share/typr/results
-                        Configure via: ~/.config/typr/config.yaml
+                        Default dir: $XDG_DATA_HOME/typr/results or ~/.local/share/typr/results
+                        Configure via: $XDG_CONFIG_HOME/typr/config.yaml or ~/.config/typr/config.yaml
     -json               Print the test output in JSON.
     -raw                Don't reflow STDIN text or show one paragraph at a time.
                         Note that line breaks are determined exclusively by the
@@ -234,7 +235,7 @@ Misc
                         TYPE=[themes|quotes|words]
 
 Version
-    -v                  Print the current version.
+    -V, --version       Print the current version.
 `
 
 func saveMistakes(mistakes []mistake) {
@@ -321,7 +322,8 @@ func main() {
 	flag.IntVar(&maxLineLen, "w", cfg.W, "")
 	flag.IntVar(&timeout, "t", cfg.T, "")
 
-	flag.BoolVar(&versionFlag, "v", false, "")
+	flag.BoolVar(&versionFlag, "version", false, "")
+	flag.BoolVar(&versionFlag, "V", false, "")
 
 	flag.BoolVar(&wordsMode, "words", false, "")
 	flag.StringVar(&wordFileOverride, "wordfile", "", "")

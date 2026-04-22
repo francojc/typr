@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"gopkg.in/yaml.v3"
 )
@@ -45,6 +46,32 @@ type AppConfig struct {
 
 var YAML_CONFIG_FILE string
 
+func getDefaultConfigDir() string {
+	home, ok := os.LookupEnv("HOME")
+	if !ok {
+		return "~/.config/typr"
+	}
+
+	if configHome, ok := os.LookupEnv("XDG_CONFIG_HOME"); ok {
+		return filepath.Join(configHome, "typr")
+	}
+
+	return filepath.Join(home, ".config/typr")
+}
+
+func getDefaultCSVDir() string {
+	home, ok := os.LookupEnv("HOME")
+	if !ok {
+		return "~/.local/share/typr/results"
+	}
+
+	if dataHome, ok := os.LookupEnv("XDG_DATA_HOME"); ok {
+		return filepath.Join(dataHome, "typr", "results")
+	}
+
+	return filepath.Join(home, ".local", "share", "typr", "results")
+}
+
 func getDefaultConfig() AppConfig {
 	return AppConfig{
 		Words:       "1000en",
@@ -66,8 +93,8 @@ func getDefaultConfig() AppConfig {
 		Highlight2:  false,
 		Raw:         false,
 		Multi:       false,
-		Csv:         false,
-		CsvDir:      "",
+		Csv:         true,
+		CsvDir:      getDefaultCSVDir(),
 		Json:        false,
 		OneShot:     false,
 		NoReport:    false,
@@ -84,12 +111,14 @@ func createDefaultConfigFile(configPath string) error {
 	}
 
 	// Add header comments to the generated YAML
-	header := `# typr - Typing Test Configuration
+	header := fmt.Sprintf(`# typr - Typing Test Configuration
 #
 # This file contains default settings for typr.
 # Command-line flags override these settings.
+#
+# Config path: %s/config.yaml
 
-`
+`, getDefaultConfigDir())
 	fullContent := header + string(data)
 
 	// Write to file

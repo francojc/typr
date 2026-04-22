@@ -10,7 +10,6 @@ import (
 var FILE_STATE_DB string
 var MISTAKE_DB string
 var RESULTS_DIR string
-var CONFIG_FILE string
 var ZENLOG_FILE string
 
 func init() {
@@ -47,7 +46,6 @@ func init() {
 	}
 
 	os.MkdirAll(configDir, 0700)
-	CONFIG_FILE = filepath.Join(configDir, "config.json")
 	YAML_CONFIG_FILE = filepath.Join(configDir, "config.yaml")
 
 	// Ensure YAML config file exists (create with defaults if missing)
@@ -82,31 +80,32 @@ func writeValue(path string, o interface{}) {
 	}
 }
 
-type Config struct {
-	CSVDir string `json:"csvdir"`
+func expandHome(path string) string {
+	if path == "" || path[0] != '~' {
+		return path
+	}
+
+	home, ok := os.LookupEnv("HOME")
+	if !ok {
+		return path
+	}
+
+	return filepath.Join(home, path[1:])
 }
 
 func loadCSVDir(defaultData string) string {
-	var config Config
+	defaultDir := filepath.Join(defaultData, "results")
 
-	// Try to read config file
-	if err := readValue(CONFIG_FILE, &config); err != nil {
-		// Config doesn't exist or invalid, use default
-		return filepath.Join(defaultData, "results")
+	cfg, err := loadConfig(YAML_CONFIG_FILE)
+	if err != nil {
+		return defaultDir
 	}
 
-	// If csvdir is set in config, use it
-	if config.CSVDir != "" {
-		// Expand ~ to home directory if present
-		if config.CSVDir[0] == '~' {
-			home, _ := os.LookupEnv("HOME")
-			return filepath.Join(home, config.CSVDir[1:])
-		}
-		return config.CSVDir
+	if cfg.CsvDir != "" {
+		return expandHome(cfg.CsvDir)
 	}
 
-	// Config exists but no csvdir set, use default
-	return filepath.Join(defaultData, "results")
+	return defaultDir
 }
 
 func writeCSVStats(testType string, timestamp int64, wpm, cpm int, accuracy float64, file string, n int) error {

@@ -86,13 +86,15 @@ Run tests with the `-csv` flag to generate data for visualization.
 
 ### YAML Configuration File
 
-Create a configuration file at `~/.config/typr/config.yaml`:
+`typr` creates a configuration file automatically on first run at `$XDG_CONFIG_HOME/typr/config.yaml` or `~/.config/typr/config.yaml`:
 
 ```yaml
 # typr - Typing Test Configuration
 #
 # This file contains default settings for typr.
 # Command-line flags override these settings.
+#
+# Config path: $XDG_CONFIG_HOME/typr/config.yaml or ~/.config/typr/config.yaml
 
 # Word/Quote Mode
 words: "1000en"
@@ -120,12 +122,14 @@ raw: false
 multi: false
 
 # Output Options
-csv: false
-csvdir: ""  # Custom CSV output directory (optional)
+csv: true
+csvdir: "~/.local/share/typr/results"
 json: false
 oneshot: false
 noreport: false
 ```
+
+If `XDG_DATA_HOME` is set, generated config uses `$XDG_DATA_HOME/typr/results` instead.
 
 ### Custom Themes and Word Lists
 
@@ -136,12 +140,12 @@ accessible by default using the respective flags.
 
 ### CSV Output Directory
 
-By default, `-csv` writes results to `~/.local/share/typr/results/`:
+By default, `typr` writes results to `$XDG_DATA_HOME/typr/results/` or `~/.local/share/typr/results/`:
 
 - Stats: `{mode}-stats.csv` (timestamp, wpm, cpm, accuracy, n)
 - Errors: `{mode}-errors.csv` (timestamp, word, error)
 
-To customize the output directory, add `csvdir` to your `config.yaml`:
+To customize output directory, set `csvdir` in `config.yaml`:
 
 ```yaml
 csvdir: "~/Documents/typing-stats"
