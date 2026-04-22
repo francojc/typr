@@ -4,8 +4,7 @@ All notable changes to typr are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-> typr is a fork of [tt](https://github.com/lemnos/tt) by Aetnaeus.
-> Version history below reflects changes made after the fork baseline.
+Version history below reflects changes made in this repository.
 
 ---
 
@@ -21,7 +20,7 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
-- `NOTICE` file with attribution to upstream project (`tt` by Aetnaeus)
+- `NOTICE` file with upstream attribution details
 - GoReleaser configuration for cross-compiled binary releases
 - GitHub Actions workflow for automated releases on tag push
 
@@ -118,9 +117,8 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
-- Fork baseline from [tt](https://github.com/lemnos/tt) by Aetnaeus
-- Retained all upstream features: word mode, quote mode, themes, CSV output,
-  multi-mode, XDG Base Directory compliance, `Ctrl-W` word deletion
+- Initial typr release baseline
+- Word mode, quote mode, themes, CSV output, multi-mode, XDG Base Directory compliance, `Ctrl-W` word deletion
 
 ---
 

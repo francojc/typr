@@ -1,7 +1,6 @@
 - Keep track of errors.
-- Generate word sets based on errors
+- Generate word sets based on errors.
 - Consolidate documentation.
 - Add option to export errors.
-- Add -nobackspace
-- -adaptive/-tutor mode which learns from your mistakes.
-- Add -blind
+- Add -adaptive/-tutor mode which learns from your mistakes.
+- Add -blind.

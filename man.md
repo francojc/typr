@@ -229,8 +229,7 @@ typr -t 60 -csv -oneshot
 
 # AUTHOR
 
-Originally by Aetnaeus <aetnaeus@protonmail.com>\
-Extended and maintained by Jerid Francom
+Jerid Francom
 
 # SEE ALSO
 
@@ -240,4 +239,4 @@ Extended and maintained by Jerid Francom
 
 # LICENSE
 
-MIT — see LICENSE and NOTICE for details.
+MIT License — see LICENSE. Upstream attribution details live in NOTICE.

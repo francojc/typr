@@ -2,8 +2,6 @@
 
 A terminal-based typing test.
 
-> **Attribution**: typr is a fork of [tt](https://github.com/lemnos/tt) by Aetnaeus, used under the MIT License. See [NOTICE](NOTICE) for details.
-
 ![](demo.gif)
 
 # Installation
@@ -170,3 +168,7 @@ typr -quotefile zen
 ```
 
 This reads exclusively from the zenlog cache. If the cache is empty, typr will prompt you to run `typr -quotes` first to populate it.
+
+## License
+
+[MIT](LICENSE). Attribution note: [NOTICE](NOTICE).
