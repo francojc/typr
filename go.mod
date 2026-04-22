@@ -1,4 +1,4 @@
-module tt
+module github.com/francojc/typr
 
 go 1.17
 

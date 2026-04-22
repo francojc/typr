@@ -1,6 +1,8 @@
-# What
+# typr
 
-A terminal based typing test.
+A terminal-based typing test.
+
+> **Attribution**: typr is a fork of [tt](https://github.com/lemnos/tt) by Aetnaeus, used under the MIT License. See [NOTICE](NOTICE) for details.
 
 ![](demo.gif)
 
@@ -8,36 +10,23 @@ A terminal based typing test.
 
 ## From Source (Recommended)
 
+```bash
+# Install latest release binary
+go install github.com/francojc/typr@latest
 ```
-# Install dependencies
-# On Debian/Ubuntu:
-sudo apt install golang
 
-# On macOS:
-brew install golang
+## From Source
 
-# Clone and build
-git clone https://github.com/lemnos/tt
-cd tt
+```bash
+git clone https://github.com/francojc/typr
+cd typr
 make && sudo make install
 ```
 
 ## Uninstall
 
-```
-sudo rm /usr/local/bin/tt /usr/share/man/man1/tt.1.gz
-```
-
-## From source (legacy instructions)
-
-```
-# debian dependencies
-sudo apt install golang
-
-# clone and make
-git clone https://github.com/lemnos/tt
-cd tt
-make && sudo make install
+```bash
+sudo rm /usr/local/bin/typr /usr/share/man/man1/typr.1.gz
 ```
 
 Best served on a terminal with truecolor and cursor shape support (e.g kitty, iterm)
@@ -59,7 +48,8 @@ options.
 ## Examples
 
  - `tt -quotes en` Starts quote mode with the builtin quote list 'en'.
- - `tt -quotefile zen` Starts with a random quote from ZenQuotes API.
+ - `tt -quotes` Fetches a random quote from the ZenQuotes API (cached locally).
+ - `tt -quotefile zen` Uses a locally cached quote from previous ZenQuotes API sessions (offline).
  - `tt -n 10 -g 5` produces a test consisting of 50 randomly drawn words in 5 groups of 10 words each.
  - `tt -t 10` starts a timed test lasting 10 seconds.
  - `tt -theme gruvbox` Starts tt with the gruvbox theme.
@@ -161,13 +151,18 @@ The tilde (`~`) will be expanded to your home directory. Paths can be absolute o
 
 ## ZenQuotes and Offline Mode
 
-When using `-quotefile zen`, tt fetches inspirational quotes from the [ZenQuotes API](https://zenquotes.io/).
+`tt -quotes` fetches inspirational quotes from the [ZenQuotes API](https://zenquotes.io/). Each fetched quote is automatically cached to `~/.local/share/tt/quotes/zenlog.json` (unique quotes only, no duplicates).
 
-Quotes are automatically cached to `~/.local/share/tt/quotes/zenlog.json` for offline use. The cache stores unique quotes only (no duplicates).
+When the API is unavailable (network issues, rate limiting, etc.), tt falls back automatically to:
 
-When the API is unavailable (network issues, rate limiting, etc.), tt falls back to:
+1. In-memory quote cache (current session)
+2. Previously cached quotes from zenlog
+3. Built-in default quote if no cache exists
 
-1. Previously cached quotes from zenlog
-2. Built-in default quotes if no cache exists
+To explicitly use only locally cached quotes (no network), use `-quotefile zen`:
 
-This ensures you can always practice typing even without an internet connection.
+```bash
+tt -quotefile zen
+```
+
+This reads exclusively from the zenlog cache. If the cache is empty, tt will prompt you to run `tt -quotes` first to populate it.

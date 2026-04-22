@@ -1,134 +1,135 @@
-# 0.6.0 (TBD)
+# Changelog
 
-## Added
-- **Progress Visualization**: New `visualize` subcommand displays ASCII graphs of typing progress
-  - Shows min/mean/max WPM trends aggregated by day
-  - Default 30-day time window
-  - Pure Go implementation using asciigraph library
-  - Usage: `tt visualize [file]`
-  - Requires CSV data from previous tests run with `-csv` flag
+All notable changes to typr are documented here.
+Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
+Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-# 0.5.0
+> typr is a fork of [tt](https://github.com/lemnos/tt) by Aetnaeus.
+> Version history below reflects changes made after the fork baseline.
 
-Major configuration and output improvements:
+---
 
-## Breaking Changes
-- **Config format changed** from JSON to YAML:
-  - Config file location: `~/.config/tt/config.yaml` (previously config.json)
-  - Existing JSON config files will be ignored
-  - YAML format offers better readability and commenting support
+## [Unreleased]
 
-- **Installation method changed**:
-  - Pre-built binaries removed from releases
-  - Users must build from source using Go
-  - Updated installation instructions provided
+## [1.0.0] - 2026-04-21
 
-## New Features
-- **ZenQuotes API integration**:
-  - Use `-quotefile zen` to fetch random quotes from ZenQuotes API
-  - Fallback mechanisms ensure smooth operation
-  - No API key required for basic usage
+### Changed
 
-- **Enhanced CSV logging**:
-  - Added 'n' field to track test group size in CSV stats
-  - Added file tracking to CSV output
-  - CSV format now includes: `timestamp,wpm,cpm,accuracy,file,n`
+- `tt -quotes` now defaults to ZenQuotes API (with zenlog fallback) -- no `-quotefile` flag needed
+- `-quotefile zen` now reads exclusively from local zenlog cache (offline, no network)
+- Clear error when zenlog is empty, prompting user to run `tt -quotes` first to populate it
 
-## Improvements
-- **YAML configuration support**:
-  - All configuration options now supported in YAML
-  - Comments and inline documentation in config file
-  - Automatic config file creation with defaults
-  - XDG Base Directory compliant
+### Added
 
-- **Flag behavior improvements**:
-  - Better handling of `-words` vs `-wordfile`
-  - Improved `-quotes` vs `-quotefile` distinction
-  - Clearer error messages for invalid combinations
+- `NOTICE` file with attribution to upstream project (tt by Aetnaeus)
+- GoReleaser configuration for cross-compiled binary releases
+- GitHub Actions workflow for automated releases on tag push
 
-- **CSV file output**:
-  - CSV output now writes to files instead of stdout
-  - Stats file: `~/.local/share/tt/results/{mode}-stats.csv`
-  - Errors file: `~/.local/share/tt/results/{mode}-errors.csv`
-  - Headers automatically added on first write
+---
 
-## Fixes
-- Config defaults now properly applied with correct precedence
-- CSV file headers correctly managed
-- Mode flag handling improved
-- Binary file removed from repository (reduced bloat)
+## [0.9.0] - 2026-04-21
 
-**Note**: This release includes breaking changes that may require users to update their configuration and scripts.
+### Added
 
-## Additional Cleanup Changes
-- **Removed Ctrl-C exit handling** - Use Esc to exit for consistent behavior
-- **Updated directory structure** - Custom resources now use `~/.config/tt/` (XDG compliant)
-- **Removed non-functional features**:
-  - Left/Right arrow navigation (never worked)
-  - Outdated curl example (now core feature with `-quotefile zen`)
-- **Documentation updates** to reflect current functionality
+- Local zenlog offline cache: quotes fetched from ZenQuotes API are persisted to
+  `~/.local/share/typr/quotes/zenlog.json` for offline fallback
+- Deduplication logic: only unique quotes are stored in the zenlog
+- `getQuoteWithFallback()`: tiered fallback -- API → in-memory cache → zenlog → hardcoded default
+- Unit tests for zenlog load, append, deduplication, and fallback behavior
 
-# 0.4.4:
+---
 
-Enhanced keyboard shortcuts and CSV functionality:
+## [0.8.0] - 2026-01-27
 
-- **Changed keyboard shortcuts**:
-  - `Esc` now quits the application (previously restarted test)
-  - `Tab` restarts test during active test, starts new test on results screen (previously unused)
-  - `Ctrl-W` deletes previous word during typing (already existed, now documented)
+### Added
 
-- **Enhanced CSV output** (Breaking change):
-  - `-csv` flag now writes to files instead of stdout
-  - Stats file: `~/.local/share/tt/results/{mode}-stats.csv` (timestamp,wpm,cpm,accuracy)
-  - Errors file: `~/.local/share/tt/results/{mode}-errors.csv` (timestamp,word,error)
-  - Headers automatically added on first write
-  - Supports all test modes: words, quotes, file, stdin
+- ZenQuotes API integration: `-quotefile zen` fetches a random inspirational quote
+  from [zenquotes.io](https://zenquotes.io/) with a 5-second timeout
+- In-memory quote cache (last 10 quotes) for session-level fallback
+- Hardcoded fallback quote when API and cache are both unavailable
 
-- **Config file support**:
-  - Configuration file: `~/.config/tt/config.json`
-  - Customize CSV output directory with `{"csvdir": "/custom/path"}`
-  - Supports tilde expansion (`~/Documents/stats`)
-  - XDG Base Directory compliant
+---
 
-**Note**: The `-csv` flag behavior change is a breaking change. Users with scripts that relied on stdout output will need to update them.
+## [0.7.0] - 2026-01-09
 
-# 0.4.3:
+### Added
 
-Code modernization and build improvements:
+- `visualize` subcommand: ASCII graph of typing speed progress over time
+- Shows min, mean, and max WPM aggregated by day (default: last 30 days)
+- Accepts a filename or full path to a `-csv` stats file
+- Uses [asciigraph](https://github.com/guptarohit/asciigraph) library
 
-- Removed deprecated io/ioutil package usage (deprecated since Go 1.16)
-- Updated to modern Go stdlib equivalents:
-  - ioutil.ReadAll() → io.ReadAll()
-  - ioutil.ReadFile() → os.ReadFile()
-  - ioutil.WriteFile() → os.WriteFile()
-  - ioutil.Discard → io.Discard
-- Removed unnecessary rand.Seed() call (auto-initialized in Go 1.20+)
-- Added clean target to Makefile
+---
 
-# 0.4.2:
+## [0.6.0] - 2025-12-10
 
-Added -notheme, -blockcursor and -bold.
+### Added
 
-# 0.4.0:
-  Too numerous to list (see the man page)
+- YAML configuration file support (`~/.config/typr/config.yaml`)
+- Automatic config file creation with commented defaults on first run
+- `file` field added to CSV stats output (`timestamp,wpm,cpm,accuracy,file,n`)
+- `n` field added to CSV stats to track test group size
 
-  Highlights:
+### Changed
 
- - Added -quotes.
- - Added support for navigating between tests via right/left.
- - Now store the user's position within a file if one is specified.
- - Improved documentation.
+- Config format changed from JSON to YAML (JSON configs will be ignored)
+- Config location: `~/.config/typr/config.yaml` (previously `config.json`)
+- CSV output writes to files instead of stdout
+- Stats: `~/.local/share/typr/results/{mode}-stats.csv`
+- Errors: `~/.local/share/typr/results/{mode}-errors.csv`
+- Flag precedence clarified: override > config > hardcoded default
 
-# 0.3.0:
- - Added support for custom word lists (`-words).
- - `-theme` now accepts a path.
- - Added `~/.tt/themes` and `~/.tt/words`.
- - Scrapped ~/.ttrc in favour of aliases/flags.
- - Included more default word lists. (`-list words`)
+### Fixed
 
-# 0.2.2:
- - Modified -g to correspond to the number of groups rather than the group size.
- - Added -multi
- - Added -v
- - Changed the default behaviour to restart the currently generated test rather than generating a new one
- - Added a CHANGELOG :P
+- Config defaults now correctly applied across all flags
+
+---
+
+## [0.5.0] - 2025-12-07
+
+### Changed
+
+- `Esc` exits the application (previously restarted test)
+- `Tab` restarts the current test during typing; starts a new test on results screen
+- Improved `-quotes` vs `-quotefile` distinction and error messaging
+- Keyboard shortcut documentation updated
+
+---
+
+## [0.4.0] - 2025-12-06
+
+### Added
+
+- Makefile `clean` target
+
+### Changed
+
+- Modernized codebase: replaced deprecated `io/ioutil` with `io` and `os` equivalents
+- Removed `rand.Seed()` (auto-initialized since Go 1.20)
+- Install prefix updated to user-local directory in Makefile
+
+### Removed
+
+- Binary file removed from repository
+
+---
+
+## [0.1.0] - 2025-12-06
+
+### Added
+
+- Fork baseline from [tt](https://github.com/lemnos/tt) by Aetnaeus
+- Retained all upstream features: word mode, quote mode, themes, CSV output,
+  multi-mode, XDG Base Directory compliance, `Ctrl-W` word deletion
+
+---
+
+[Unreleased]: https://github.com/francojc/typr/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/francojc/typr/compare/v0.9.0...v1.0.0
+[0.9.0]: https://github.com/francojc/typr/compare/v0.8.0...v0.9.0
+[0.8.0]: https://github.com/francojc/typr/compare/v0.7.0...v0.8.0
+[0.7.0]: https://github.com/francojc/typr/compare/v0.6.0...v0.7.0
+[0.6.0]: https://github.com/francojc/typr/compare/v0.5.0...v0.6.0
+[0.5.0]: https://github.com/francojc/typr/compare/v0.4.0...v0.5.0
+[0.4.0]: https://github.com/francojc/typr/compare/v0.1.0...v0.4.0
+[0.1.0]: https://github.com/francojc/typr/releases/tag/v0.1.0

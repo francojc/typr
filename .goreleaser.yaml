@@ -1,0 +1,50 @@
+version: 2
+
+project_name: typr
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - main: ./src
+    binary: typr
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w
+
+archives:
+  - formats: [tar.gz]
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    files:
+      - README.md
+      - LICENSE
+      - NOTICE
+      - CHANGELOG.md
+
+checksum:
+  name_template: "checksums.txt"
+
+changelog:
+  use: github
+  sort: asc
+  filters:
+    exclude:
+      - "^chore:"
+      - "^style:"
+      - "^docs:"
+
+release:
+  github:
+    owner: francojc
+    name: typr
+  draft: false
+  prerelease: auto
+  name_template: "v{{ .Version }}"
