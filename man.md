@@ -1,14 +1,14 @@
-% tt(1)
+% typr(1)
 
 # NAME
 
-tt - A terminal based typing test
+typr - A terminal based typing test
 
 # SYNOPSIS
 
-usage: tt \[OPTION\]... \[FILE\]
+usage: typr \[OPTION\]... \[FILE\]
 
-tt visualize <FILE>
+typr visualize <FILE>
 
 # SUBCOMMANDS
 
@@ -19,23 +19,23 @@ tt visualize <FILE>
     Shows min, mean, and max WPM aggregated by day over the last 30 days.
 
     FILE is required. If FILE is a simple filename without directory separators,
-    it will be looked up in the default results directory (~/.local/share/tt/results/).
+    it will be looked up in the default results directory (~/.local/share/typr/results/).
     Otherwise, the path is used as-is (supports relative and absolute paths).
 
     Examples: `quotes-stats.csv`, `words-stats.csv`
 
 # DESCRIPTION
 
-  By default tt creates a test consisting of 50 randomly generated words from
-  the top 1000 words in the English language. If provided with a path, tt will
+  By default typr creates a test consisting of 50 randomly generated words from
+  the top 1000 words in the English language. If provided with a path, typr will
   use the given file as input treating each paragraph as a separate segment of
   the test. The program will automatically keep track of your position in the
   file so subsequent invocations on the same path will place you at the most
-  recent paragraph (-start 0 can be used to reset your position).  
-  
+  recent paragraph (-start 0 can be used to reset your position).
+
   Arbitrary text can also be piped directly into the program to create a custom
   test. Each paragraph of the input is treated as a segment unless '-multi' is
-  supplied in which case each paragraph is treated as a separate test. 
+  supplied in which case each paragraph is treated as a separate test.
 
 # OPTIONS
 
@@ -45,11 +45,19 @@ tt visualize <FILE>
 
 : Specifies the file from which words are randomly drawn (default: 1000en).
 
--quotes *QUOTEFILE*
+-quotes
 
-: Starts quote mode in which quotes are randomly drawn from the given file. Use the special value `zen` to fetch quotes from the ZenQuotes API. When using `zen`, quotes are automatically cached to `~/.local/share/tt/quotes/zenlog.json` for offline use. If the API is unavailable, tt falls back to cached quotes or built-in defaults. The file should be JSON encoded and have the following form:
+: Starts quote mode using the ZenQuotes API. Quotes are automatically cached
+  to `~/.local/share/typr/quotes/zenlog.json` for offline fallback. If the API
+  is unavailable, typr falls back to cached quotes or a built-in default.
 
-    [{"text": "foo", attribution: "bar"}]
+-quotefile *QUOTEFILE*
+
+: Override the quote source. Use the special value `zen` to use only locally
+  cached quotes from previous ZenQuotes API sessions (no network required).
+  Other values should be a JSON file of the form:
+
+    [{"text": "foo", "attribution": "bar"}]
 
 ## Word Mode
 
@@ -62,6 +70,7 @@ tt visualize <FILE>
 : Sets the number of groups which constitute a test.
 
 ## File Mode
+
 -start *PARAGRAPH*
 
 : The offset of the starting paragraph, set this to 0 to reset progress on a given file.
@@ -74,7 +83,7 @@ tt visualize <FILE>
 
 -theme *THEMEFILE*
 
-: The theme to use. 
+: The theme to use.
 
 -notheme
 
@@ -88,7 +97,7 @@ tt visualize <FILE>
 
 : Embolden typed text.
 
--w 
+-w
 
 : The maximum line length in characters. This option is ignored if -raw is present.
 
@@ -126,19 +135,12 @@ tt visualize <FILE>
 
 -csv
 
-: Print CSV formatted results.
+: Write test results to CSV files.
 
-	Tests have the form:
+    Stats: `~/.local/share/typr/results/{mode}-stats.csv` (timestamp,wpm,cpm,accuracy,file,n)\
+    Errors: `~/.local/share/typr/results/{mode}-errors.csv` (timestamp,word,error)
 
-	```
-	test,[wpm],[cpm],[accuracy],[timestamp].
-	```
-
-	Mistakes have the form:
-
-	```
-	mistake,[word],[typed]
-	```
+    Configure output directory via `csvdir` in `~/.config/typr/config.yaml`.
 
 -json
 
@@ -146,10 +148,10 @@ tt visualize <FILE>
 
 -raw
 
-: Don't reflow STDIN text or show one paragraph at a time.  Note that line breaks
-are determined exclusively by the input.  
+: Don't reflow STDIN text or show one paragraph at a time. Note that line breaks
+are determined exclusively by the input.
 
--multi 
+-multi
 
 : Treat each input paragraph as a self contained test.
 
@@ -165,45 +167,43 @@ are determined exclusively by the input.
 
 # EXAMPLES
 
-Creates a series of tests each consisting of a random quote drawn from the
-builtin quote file 'en'.
+Fetch a random quote from the ZenQuotes API (cached locally):
 ```
-tt -quotes en
+typr -quotes
+```
+
+Use only locally cached quotes (offline):
+```
+typr -quotefile zen
+```
+
+Creates a series of tests each consisting of a random quote drawn from the
+builtin quote file 'en':
+```
+typr -quotes en
 ```
 
 Creates a series of tests each consisting of 10 random words drawn from
-words.txt
+words.txt:
 ```
-tt -words words.txt -n 10
-```
-
-Starts a sequence of tests in which each test consists of a paragraph from war
-and peace starting with paragraph 1.
-```
-tt ~/war_and_peace.txt -start 1
+typr -words words.txt -n 10
 ```
 
-Produces a test consisting of 40 random words draw from 
-the system dictionary (similar to 'tt -n 40').
+Starts a sequence of tests in which each test consists of a paragraph from
+War and Peace starting with paragraph 1:
 ```
-shuf -n 40 /usr/share/dict/words|tt
-```
-
-Starts a test consisting of two randomly drawn quotes from api.quotable.io and
-prints the output of each test to STDOUT in csv format.
-```
-curl https://api.quotable.io/quotes|\
-    jq '[.results[]|.text=.content|.attribution=.author][:2]'|\
-    tt -quotes - -norreport -csv
+typr ~/war_and_peace.txt -start 1
 ```
 
-Starts a new typing test which uses the tt source as input:
-
+Produces a test consisting of 40 random words drawn from the system dictionary:
 ```
-curl -LsS https://raw.githubusercontent.com/lemnos/tt/master/src/tt.go | head -n 20 | tt -noskip -raw
+shuf -n 40 /usr/share/dict/words | typr
 ```
 
-Modify to taste.
+Runs a single timed test and saves results to CSV:
+```
+typr -t 60 -csv -oneshot
+```
 
 # PATHS
 
@@ -211,12 +211,12 @@ Modify to taste.
   not exist, the following directories are searched for a file with the given
   name before falling back to internal resources:
 
-  ~/.config/tt/words\
-  ~/.config/tt/themes\
-  ~/.config/tt/quotes\
-  /etc/tt/words\
-  /etc/tt/themes\
-  /etc/tt/quotes
+  ~/.config/typr/words\
+  ~/.config/typr/themes\
+  ~/.config/typr/quotes\
+  /etc/typr/words\
+  /etc/typr/themes\
+  /etc/typr/quotes
 
 # KEYS
 
@@ -227,14 +227,15 @@ Modify to taste.
 
 # AUTHOR
 
-Aetnaeus (aetnaeus@protonmail.com)
+Originally by Aetnaeus <aetnaeus@protonmail.com>\
+Extended and maintained by Jerid Francom
 
 # SEE ALSO
 
 ## Project Page
 
-    https://github.com/lemnos/tt
+    https://github.com/francojc/typr
 
 # LICENSE
 
-MIT
+MIT — see LICENSE and NOTICE for details.

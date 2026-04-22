@@ -84,9 +84,9 @@ func createDefaultConfigFile(configPath string) error {
 	}
 
 	// Add header comments to the generated YAML
-	header := `# tt - Typing Test Configuration
+	header := `# typr - Typing Test Configuration
 #
-# This file contains default settings for the tt tool.
+# This file contains default settings for typr.
 # Command-line flags override these settings.
 
 `

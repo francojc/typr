@@ -124,7 +124,7 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
-[Unreleased]: https://github.com/francojc/typr/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/francojc/typr/compare/v1.0.0...main
 [1.0.0]: https://github.com/francojc/typr/compare/v0.9.0...v1.0.0
 [0.9.0]: https://github.com/francojc/typr/compare/v0.8.0...v0.9.0
 [0.8.0]: https://github.com/francojc/typr/compare/v0.7.0...v0.8.0

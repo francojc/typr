@@ -151,7 +151,7 @@ func generateZenQuotesTest() func() []segment {
 func generateZenlogTest() func() []segment {
 	quotes := loadZenlog()
 	if len(quotes) == 0 {
-		die("No locally logged quotes found. Run tt -quotes first to cache quotes from the ZenQuotes API.")
+		die("No locally logged quotes found. Run typr -quotes first to cache quotes from the ZenQuotes API.")
 	}
 	return func() []segment {
 		idx := rand.Intn(len(quotes))

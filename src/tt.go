@@ -256,9 +256,9 @@ func main() {
 			// Require file argument
 			if len(os.Args) < 3 {
 				fmt.Fprintf(os.Stderr, "Error: file argument required\n\n")
-				fmt.Fprintf(os.Stderr, "Usage: tt visualize <file>\n")
-				fmt.Fprintf(os.Stderr, "       tt visualize quotes-stats.csv\n")
-				fmt.Fprintf(os.Stderr, "       tt visualize words-stats.csv\n\n")
+				fmt.Fprintf(os.Stderr, "Usage: typr visualize <file>\n")
+				fmt.Fprintf(os.Stderr, "       typr visualize quotes-stats.csv\n")
+				fmt.Fprintf(os.Stderr, "       typr visualize words-stats.csv\n\n")
 				fmt.Fprintf(os.Stderr, "Simple filenames are looked up in: %s\n", RESULTS_DIR)
 				os.Exit(1)
 			}
@@ -398,7 +398,7 @@ func main() {
 	}
 
 	if versionFlag {
-		fmt.Fprintf(os.Stderr, "tt version 0.5.1\n")
+		fmt.Fprintf(os.Stderr, "typr version 1.0.0\n")
 		os.Exit(1)
 	}
 

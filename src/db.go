@@ -23,9 +23,9 @@ func init() {
 	}
 
 	if data, ok = os.LookupEnv("XDG_DATA_HOME"); ok {
-		data = filepath.Join(data, "/tt")
+		data = filepath.Join(data, "/typr")
 	} else {
-		data = filepath.Join(home, "/.local/share/tt")
+		data = filepath.Join(home, "/.local/share/typr")
 	}
 
 	os.MkdirAll(data, 0700)
@@ -41,9 +41,9 @@ func init() {
 	// Set up config directory
 	var configDir string
 	if configDir, ok = os.LookupEnv("XDG_CONFIG_HOME"); ok {
-		configDir = filepath.Join(configDir, "tt")
+		configDir = filepath.Join(configDir, "typr")
 	} else {
-		configDir = filepath.Join(home, ".config/tt")
+		configDir = filepath.Join(home, ".config/typr")
 	}
 
 	os.MkdirAll(configDir, 0700)
